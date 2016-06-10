@@ -92,8 +92,8 @@ class Strava extends AbstractProvider
     {
         return new StravaResourceOwner($response);
     }
-	
-	    /**
+
+    /**
      * Returns the authorization headers used by this provider.
      *
      * Typically this is "Bearer" or "MAC". For more information see:
