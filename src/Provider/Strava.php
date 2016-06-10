@@ -92,4 +92,25 @@ class Strava extends AbstractProvider
     {
         return new StravaResourceOwner($response);
     }
+	
+	    /**
+     * Returns the authorization headers used by this provider.
+     *
+     * Typically this is "Bearer" or "MAC". For more information see:
+     * http://tools.ietf.org/html/rfc6749#section-7.1
+     *
+     * No default is provided, providers must overload this method to activate
+     * authorization headers.
+     *
+     * @param  mixed|null $token Either a string or an access token instance
+     * @return array
+     */
+    protected function getAuthorizationHeaders($token = null)
+    {
+        return [
+            'Accept'          => 'application/json',
+            'Authorization'   => 'Bearer ' . $token,
+            'Accept-Encoding' => 'gzip',
+        ];
+    }
 }
