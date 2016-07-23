@@ -8,11 +8,20 @@ use Psr\Http\Message\ResponseInterface;
 
 class Strava extends AbstractProvider
 {
-    public $domain = 'https://www.strava.com';
+    /**
+     * @var string
+     */
+    protected $domain = 'https://www.strava.com';
 
-    public $apiDomain = 'https://www.strava.com';
+    /**
+     * @var string
+     */
+    protected $apiDomain = 'https://www.strava.com';
 
-    public $apiVersion = 'v3';
+    /**
+     * @var string
+     */
+    protected $apiVersion = 'v3';
 
     /**
      * Get authorization url to begin OAuth flow
