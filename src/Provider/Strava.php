@@ -11,7 +11,7 @@ class Strava extends AbstractProvider
     /**
      * @var string
      */
-    CONST BASE_STRAVA_URL = 'https://www.strava.com';
+    const BASE_STRAVA_URL = 'https://www.strava.com';
 
     /**
      * @var string
