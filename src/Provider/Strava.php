@@ -11,12 +11,7 @@ class Strava extends AbstractProvider
     /**
      * @var string
      */
-    protected $domain = 'https://www.strava.com';
-
-    /**
-     * @var string
-     */
-    protected $apiDomain = 'https://www.strava.com';
+    CONST BASE_STRAVA_URL = 'https://www.strava.com';
 
     /**
      * @var string
@@ -24,13 +19,34 @@ class Strava extends AbstractProvider
     protected $apiVersion = 'v3';
 
     /**
+     * Constructs an OAuth 2.0 service provider.
+     *
+     * @param array $options An array of options to set on this provider.
+     *     Options include `clientId`, `clientSecret`, `redirectUri`, `state`, `apiVersion`.
+     *     Individual providers may introduce more options, as needed.
+     * @param array $collaborators An array of collaborators that may be used to
+     *     override this provider's default behavior. Collaborators include
+     *     `grantFactory`, `requestFactory`, `httpClient`, and `randomFactory`.
+     *     Individual providers may introduce more collaborators, as needed.
+     */
+    public function __construct(array $options = [], array $collaborators = [])
+    {
+        parent::__construct($options, $collaborators);
+
+        foreach ($options as $option => $value) {
+            if (property_exists($this, $option)) {
+                $this->{$option} = $value;
+            }
+        }
+    }
+    /**
      * Get authorization url to begin OAuth flow
      *
      * @return string
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->domain . '/oauth/authorize';
+        return self::BASE_STRAVA_URL . '/oauth/authorize';
     }
 
     /**
@@ -42,7 +58,7 @@ class Strava extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->domain . '/oauth/token';
+        return self::BASE_STRAVA_URL . '/oauth/token';
     }
 
     /**
@@ -54,7 +70,7 @@ class Strava extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->domain . '/api/' . $this->apiVersion . '/athlete?access_token=' . $token;
+        return self::BASE_STRAVA_URL . '/api/' . $this->apiVersion . '/athlete?access_token=' . $token;
     }
 
     /**
@@ -122,4 +138,21 @@ class Strava extends AbstractProvider
             'Accept-Encoding' => 'gzip',
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function getBaseStravaUrl()
+    {
+        return self::BASE_STRAVA_URL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiVersion()
+    {
+        return $this->apiVersion;
+    }
+
 }

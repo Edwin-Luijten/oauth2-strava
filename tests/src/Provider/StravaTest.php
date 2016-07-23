@@ -79,7 +79,6 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
     public function testStravaDomainUrls()
     {
-        $this->provider->domain = 'https://strava.company.com';
         $response               = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn(
             'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}'
@@ -91,15 +90,15 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $this->provider->setHttpClient($client);
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $this->assertEquals(
-            $this->provider->domain . '/oauth/authorize',
+            $this->provider->getBaseStravaUrl() . '/oauth/authorize',
             $this->provider->getBaseAuthorizationUrl()
         );
         $this->assertEquals(
-            $this->provider->domain . '/oauth/token',
+            $this->provider->getBaseStravaUrl() . '/oauth/token',
             $this->provider->getBaseAccessTokenUrl([])
         );
         $this->assertEquals(
-            $this->provider->domain . '/api/v3/athlete?access_token=' . $token,
+            $this->provider->getBaseStravaUrl() . '/api/v3/athlete?access_token=' . $token,
             $this->provider->getResourceOwnerDetailsUrl($token)
         );
 
