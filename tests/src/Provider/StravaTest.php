@@ -5,6 +5,7 @@ use Mockery as m;
 class StravaTest extends \PHPUnit_Framework_TestCase
 {
     protected $provider;
+    protected $apiVersion = 'v3';
 
     protected function setUp()
     {
@@ -79,6 +80,10 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
     public function testStravaDomainUrls()
     {
+        $provider = new \League\OAuth2\Client\Provider\Strava([
+            'apiVersion' => $this->apiVersion
+        ]);
+
         $response               = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn(
             'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}'
@@ -87,19 +92,23 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $response->shouldReceive('getStatusCode')->andReturn(200);
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')->times(1)->andReturn($response);
-        $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+        $provider->setHttpClient($client);
+        $token = $provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $this->assertEquals(
-            $this->provider->getBaseStravaUrl() . '/oauth/authorize',
-            $this->provider->getBaseAuthorizationUrl()
+            $provider->getBaseStravaUrl() . '/oauth/authorize',
+            $provider->getBaseAuthorizationUrl()
         );
         $this->assertEquals(
-            $this->provider->getBaseStravaUrl() . '/oauth/token',
-            $this->provider->getBaseAccessTokenUrl([])
+            $provider->getBaseStravaUrl() . '/oauth/token',
+            $provider->getBaseAccessTokenUrl([])
         );
         $this->assertEquals(
-            $this->provider->getBaseStravaUrl() . '/api/v3/athlete?access_token=' . $token,
-            $this->provider->getResourceOwnerDetailsUrl($token)
+            $provider->getBaseStravaUrl() . '/api/v3/athlete?access_token=' . $token,
+            $provider->getResourceOwnerDetailsUrl($token)
+        );
+        $this->assertEquals(
+            $provider->getApiVersion(),
+            $this->apiVersion
         );
 
     }
