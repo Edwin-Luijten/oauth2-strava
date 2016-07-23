@@ -4,10 +4,13 @@ namespace League\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
 class Strava extends AbstractProvider
 {
+    use BearerAuthorizationTrait;
+
     /**
      * @var string
      */
@@ -119,27 +122,6 @@ class Strava extends AbstractProvider
     }
 
     /**
-     * Returns the authorization headers used by this provider.
-     *
-     * Typically this is "Bearer" or "MAC". For more information see:
-     * http://tools.ietf.org/html/rfc6749#section-7.1
-     *
-     * No default is provided, providers must overload this method to activate
-     * authorization headers.
-     *
-     * @param  mixed|null $token Either a string or an access token instance
-     * @return array
-     */
-    protected function getAuthorizationHeaders($token = null)
-    {
-        return [
-            'Accept'          => 'application/json',
-            'Authorization'   => 'Bearer ' . $token,
-            'Accept-Encoding' => 'gzip',
-        ];
-    }
-
-    /**
      * @return string
      */
     public function getBaseStravaUrl()
@@ -154,5 +136,4 @@ class Strava extends AbstractProvider
     {
         return $this->apiVersion;
     }
-
 }
