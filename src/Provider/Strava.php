@@ -136,4 +136,19 @@ class Strava extends AbstractProvider
     {
         return $this->apiVersion;
     }
+
+    /**
+     * Returns the default headers used by this provider.
+     *
+     * Typically this is used to set 'Accept' or 'Content-Type' headers.
+     *
+     * @return array
+     */
+    protected function getDefaultHeaders()
+    {
+        return [
+            'Accept'          => 'application/json',
+            'Accept-Encoding' => 'gzip',
+        ];
+    }
 }
