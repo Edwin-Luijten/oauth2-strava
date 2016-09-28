@@ -1,4 +1,5 @@
-<?php namespace League\OAuth2\Client\Test\Provider;
+<?php
+namespace League\OAuth2\Client\Test\Provider;
 
 use Mockery as m;
 
@@ -84,7 +85,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
             'apiVersion' => $this->apiVersion
         ]);
 
-        $response               = m::mock('Psr\Http\Message\ResponseInterface');
+        $response = m::mock('Psr\Http\Message\ResponseInterface');
         $response->shouldReceive('getBody')->times(1)->andReturn(
             'access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}'
         );
@@ -103,7 +104,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
             $provider->getBaseAccessTokenUrl([])
         );
         $this->assertEquals(
-            $provider->getBaseStravaUrl() . '/api/v3/athlete?access_token=' . $token,
+            $provider->getBaseStravaUrl() . '/api/v3/athlete',
             $provider->getResourceOwnerDetailsUrl($token)
         );
         $this->assertEquals(
