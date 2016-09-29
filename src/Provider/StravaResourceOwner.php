@@ -1,18 +1,10 @@
 <?php
-
 namespace League\OAuth2\Client\Provider;
 
 class StravaResourceOwner implements ResourceOwnerInterface
 {
     /**
-     * Domain
-     *
-     * @var string
-     */
-    protected $domain;
-
-    /**
-     * Raw response
+     * Raw response.
      *
      * @var array
      */
@@ -23,15 +15,15 @@ class StravaResourceOwner implements ResourceOwnerInterface
      *
      * @param array $response
      */
-    public function __construct(array $response = [])
+    public function __construct(array $response)
     {
         $this->response = $response;
     }
 
     /**
-     * Get resource owner id
+     * Returns the identifier of the authorized resource owner.
      *
-     * @return string|null
+     * @return int|null
      */
     public function getId()
     {
@@ -39,7 +31,7 @@ class StravaResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner email
+     * Returns resource owner email.
      *
      * @return string|null
      */
@@ -49,7 +41,7 @@ class StravaResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner first name
+     * Returns resource owner first name.
      *
      * @return string|null
      */
@@ -59,7 +51,7 @@ class StravaResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner last name
+     * Returns resource owner last name.
      *
      * @return string|null
      */
@@ -69,17 +61,17 @@ class StravaResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner nickname
+     * Returns resource owner premium membership status.
      *
-     * @return string|null
+     * @return bool
      */
     public function getPremium()
     {
-        return $this->response['premium'] ?: false;
+        return $this->response['premium'];
     }
 
     /**
-     * Return all of the owner details available as an array.
+     * Returns all of the owner details available as an array.
      *
      * @return array
      */

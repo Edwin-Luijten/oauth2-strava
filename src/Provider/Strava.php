@@ -1,5 +1,4 @@
 <?php
-
 namespace League\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -10,6 +9,11 @@ use Psr\Http\Message\ResponseInterface;
 class Strava extends AbstractProvider
 {
     use BearerAuthorizationTrait;
+
+    /**
+     * @var string Key used in the access token response to identify the resource owner.
+     */
+    const ACCESS_TOKEN_RESOURCE_OWNER_ID = 'athlete.id';
 
     /**
      * @var string
@@ -42,6 +46,7 @@ class Strava extends AbstractProvider
             }
         }
     }
+
     /**
      * Get authorization url to begin OAuth flow
      *
@@ -73,11 +78,12 @@ class Strava extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return self::BASE_STRAVA_URL . '/api/' . $this->apiVersion . '/athlete?access_token=' . $token;
+        return self::BASE_STRAVA_URL . '/api/' . $this->apiVersion . '/athlete';
     }
 
     /**
-     * @link http://strava.github.io/api/v3/oauth/#get-authorize
+     * @link https://strava.github.io/api/v3/oauth/#get-authorize
+     *
      * Get the default scopes used by this provider.
      *
      * This should not be a complete list of all scopes, but the minimum

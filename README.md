@@ -23,9 +23,9 @@ Usage is the same as The League's OAuth client, using `\League\OAuth2\Client\Pro
 
 ``` php
 $provider = new League\OAuth2\Client\Provider\Strava([
-    'clientId'          => '{strava-client-id}',
-    'clientSecret'      => '{strava-client-secret}',
-    'redirectUri'       => 'https://example.com/callback-url',
+    'clientId'     => '{strava-client-id}',
+    'clientSecret' => '{strava-client-secret}',
+    'redirectUri'  => 'https://example.com/callback-url',
 ]);
 
 if (!isset($_GET['code'])) {
@@ -62,16 +62,13 @@ if (!isset($_GET['code'])) {
 
         // Failed to get user details
         exit('Oh dear...');
+
     }
 
     // Use this to interact with an API on the users behalf
     echo $token->getToken();
 }
 ```
-
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Testing
 
