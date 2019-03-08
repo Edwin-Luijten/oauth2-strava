@@ -119,7 +119,6 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $userId    = rand(1000, 9999);
         $firstName = uniqid();
         $lastName  = uniqid();
-        $email     = uniqid();
         $premium   = false;
 
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
@@ -130,7 +129,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $postResponse->shouldReceive('getStatusCode')->andReturn(200);
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $userResponse->shouldReceive('getBody')->andReturn(
-            '{"id": ' . $userId . ', "firstname": "' . $firstName . '", "lastname": "' . $lastName . '", "email": "' . $email . '", "premium": "' . $premium . '"}'
+            '{"id": ' . $userId . ', "firstname": "' . $firstName . '", "lastname": "' . $lastName . '", "premium": "' . $premium . '"}'
         );
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $userResponse->shouldReceive('getStatusCode')->andReturn(200);
@@ -149,8 +148,6 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastName, $user->toArray()['lastname']);
         $this->assertEquals($premium, $user->getPremium());
         $this->assertEquals($premium, $user->toArray()['premium']);
-        $this->assertEquals($email, $user->getEmail());
-        $this->assertEquals($email, $user->toArray()['email']);
     }
 
     /**
