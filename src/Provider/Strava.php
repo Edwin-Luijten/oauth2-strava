@@ -93,7 +93,7 @@ class Strava extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-        return ['public'];
+        return ['read'];
     }
 
     /**
