@@ -31,16 +31,6 @@ class StravaResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Returns resource owner email.
-     *
-     * @return string|null
-     */
-    public function getEmail()
-    {
-        return $this->response['email'] ?: null;
-    }
-
-    /**
      * Returns resource owner first name.
      *
      * @return string|null
