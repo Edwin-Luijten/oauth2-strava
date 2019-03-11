@@ -5,11 +5,21 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 7.3
+  - nightly
 
-before_script:
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+
+sudo: false
+
+before_install:
   - travis_retry composer self-update
+
+install:
   - travis_retry composer install --no-interaction --prefer-source --dev
-  - travis_retry phpenv rehash
 
 script:
   - ./vendor/bin/phpcs --standard=psr2 src/
