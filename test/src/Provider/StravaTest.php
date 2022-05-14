@@ -13,7 +13,7 @@ class StravaTest extends TestCase
 
     protected function getProvider()
     {
-        $this->provider = new \League\OAuth2\Client\Provider\Strava(
+        return new \League\OAuth2\Client\Provider\Strava(
             [
                 'clientId' => 'mock_client_id',
                 'clientSecret' => 'mock_secret',
