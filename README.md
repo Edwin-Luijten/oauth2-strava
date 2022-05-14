@@ -2,9 +2,9 @@
 
 [![Latest Version](https://img.shields.io/github/release/edwin-luijten/oauth2-strava.svg?style=flat)](https://github.com/Edwin-Luijten/oauth2-strava/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/Edwin-Luijten/oauth2-strava/master.svg?style=flat-square)](https://travis-ci.org/Edwin-Luijten/oauth2-strava)
+[![Build Status](https://img.shields.io/github/workflow/status/Edwin-Luijten/oauth2-strava/CI?label=CI&logo=github&style=flat-square)](https://github.com/Edwin-Luijten/oauth2-strava/actions?query=workflow%3ACI)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Edwin-Luijten/oauth2-strava.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/oauth2-strava/?branch=master)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Edwin-Luijten/oauth2-strava.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/oauth2-strava/?branch=master)
+[![Codecov Code Coverage](https://img.shields.io/codecov/c/gh/Edwin-Luijten/oauth2-strava?label=codecov&logo=codecov&style=flat-square)](https://codecov.io/gh/Edwin-Luijten/oauth2-strava)
 [![Total Downloads](https://img.shields.io/packagist/dt/edwin-luijten/oauth2-strava.svg?style=flat-square)](https://packagist.org/packages/edwin-luijten/oauth2-strava)
 
 This package provides Strava OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
