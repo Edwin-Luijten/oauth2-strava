@@ -42,9 +42,11 @@ class StravaTest extends TestCase
     {
         $provider = $this->getProvider();
 
-        $options = ['scope' => [uniqid(), uniqid()]];
-        $url = $provider->getAuthorizationUrl($options);
-        $this->assertContains(urlencode(implode(',', $options['scope'])), $url);
+        $url = $provider->getAuthorizationUrl(['scope' => ['foo', 'bar']]);
+        parse_str(parse_url($url, PHP_URL_QUERY), $qs);
+
+        $this->assertArrayHasKey('scope', $qs);
+        $this->assertSame('foo,bar', $qs['scope']);
     }
 
     public function testGetAuthorizationUrl()
