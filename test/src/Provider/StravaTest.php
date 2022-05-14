@@ -11,7 +11,7 @@ class StravaTest extends TestCase
     protected $provider;
     protected $apiVersion = 'v3';
 
-    protected function setUp()
+    protected function getProvider()
     {
         $this->provider = new \League\OAuth2\Client\Provider\Strava(
             [
@@ -22,15 +22,11 @@ class StravaTest extends TestCase
         );
     }
 
-    public function tearDown()
-    {
-        m::close();
-        parent::tearDown();
-    }
-
     public function testAuthorizationUrl()
     {
-        $url = $this->provider->getAuthorizationUrl();
+        $provider = $this->getProvider();
+
+        $url = $provider->getAuthorizationUrl();
         $uri = parse_url($url);
         parse_str($uri['query'], $query);
         $this->assertArrayHasKey('client_id', $query);
@@ -39,27 +35,33 @@ class StravaTest extends TestCase
         $this->assertArrayHasKey('scope', $query);
         $this->assertArrayHasKey('response_type', $query);
         $this->assertArrayHasKey('approval_prompt', $query);
-        $this->assertNotNull($this->provider->getState());
+        $this->assertNotNull($provider->getState());
     }
 
     public function testScopes()
     {
+        $provider = $this->getProvider();
+
         $options = ['scope' => [uniqid(), uniqid()]];
-        $url = $this->provider->getAuthorizationUrl($options);
+        $url = $provider->getAuthorizationUrl($options);
         $this->assertContains(urlencode(implode(',', $options['scope'])), $url);
     }
 
     public function testGetAuthorizationUrl()
     {
-        $url = $this->provider->getAuthorizationUrl();
+        $provider = $this->getProvider();
+
+        $url = $provider->getAuthorizationUrl();
         $uri = parse_url($url);
         $this->assertEquals('/oauth/authorize', $uri['path']);
     }
 
     public function testGetBaseAccessTokenUrl()
     {
+        $provider = $this->getProvider();
+
         $params = [];
-        $url = $this->provider->getBaseAccessTokenUrl($params);
+        $url = $provider->getBaseAccessTokenUrl($params);
         $uri = parse_url($url);
         $this->assertEquals('/oauth/token', $uri['path']);
     }
@@ -72,10 +74,14 @@ class StravaTest extends TestCase
         );
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
+
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')->times(1)->andReturn($response);
-        $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+
+        $provider = $this->getProvider();
+        $provider->setHttpClient($client);
+        $token = $provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+
         $this->assertEquals('mock_access_token', $token->getToken());
         $this->assertNull($token->getExpires());
         $this->assertNull($token->getRefreshToken());
@@ -94,9 +100,12 @@ class StravaTest extends TestCase
         );
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
+
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')->times(1)->andReturn($response);
+
         $provider->setHttpClient($client);
+
         $token = $provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $this->assertEquals(
             $provider->getBaseStravaUrl() . '/oauth/authorize',
@@ -136,13 +145,18 @@ class StravaTest extends TestCase
         );
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $userResponse->shouldReceive('getStatusCode')->andReturn(200);
+
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')
             ->times(2)
             ->andReturn($postResponse, $userResponse);
-        $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-        $user = $this->provider->getResourceOwner($token);
+
+        $provider = $this->getProvider();
+
+        $provider->setHttpClient($client);
+        $token = $provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+        $user = $provider->getResourceOwner($token);
+
         $this->assertEquals($userId, $user->getId());
         $this->assertEquals($userId, $user->toArray()['id']);
         $this->assertEquals($firstName, $user->getFirstName());
@@ -170,7 +184,8 @@ class StravaTest extends TestCase
             ->times(1)
             ->andReturn($postResponse);
 
-        $this->provider->setHttpClient($client);
-        $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+        $provider = $this->getProvider();
+        $provider->setHttpClient($client);
+        $provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
     }
 }
