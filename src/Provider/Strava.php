@@ -1,4 +1,5 @@
 <?php
+
 namespace League\OAuth2\Client\Provider;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -60,7 +61,7 @@ class Strava extends AbstractProvider
     /**
      * Get access token url to retrieve token
      *
-     * @param  array $params
+     * @param array $params
      *
      * @return string
      */
@@ -72,7 +73,7 @@ class Strava extends AbstractProvider
     /**
      * Get provider url to fetch user details
      *
-     * @param  AccessToken $token
+     * @param AccessToken $token
      *
      * @return string
      */
@@ -99,10 +100,10 @@ class Strava extends AbstractProvider
     /**
      * Check a provider response for errors.
      *
-     * @throws IdentityProviderException
-     * @param  ResponseInterface $response
-     * @param  string $data Parsed response data
+     * @param ResponseInterface $response
+     * @param string $data Parsed response data
      * @return void
+     * @throws IdentityProviderException
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
@@ -153,7 +154,7 @@ class Strava extends AbstractProvider
     protected function getDefaultHeaders()
     {
         return [
-            'Accept'          => 'application/json',
+            'Accept' => 'application/json',
             'Accept-Encoding' => 'gzip',
         ];
     }
